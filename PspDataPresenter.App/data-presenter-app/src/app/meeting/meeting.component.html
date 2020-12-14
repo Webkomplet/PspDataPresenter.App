@@ -1,0 +1,10 @@
+<section class="headings">
+  <h1 class="main-heading"  *ngIf="(meeting$ | async).currentAgendaItem">
+    {{(meeting$ | async).currentAgendaItem?.name}}
+    <app-agenda-item-print [printName]="(meeting$ | async).currentAgendaItem?.print" [ngStyle]="{'display': (meeting$ | async).currentAgendaItem?.name != null && (meeting$ | async).currentAgendaItem?.name.length > 24 ? 'inline-block' : 'block'}"></app-agenda-item-print>
+  </h1>
+</section>
+
+<div [@routerTransition]="getState(o)">
+  <router-outlet #o="outlet"></router-outlet>
+</div>

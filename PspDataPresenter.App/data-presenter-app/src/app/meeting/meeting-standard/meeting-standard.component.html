@@ -1,0 +1,36 @@
+<section class="main-content">
+  <div class="main-left">
+    <ng-container
+      *ngIf="(meeting$ | async).currentAgendaItem?.debates && (meeting$ | async).currentAgendaItem?.debates.length > 0">
+
+      <h2 class="content-subheading">Rozprava <span
+          class="white">{{((meeting$ | async).currentAgendaItem?.debates | where: isGeneralDebate).length}}</span>+<span
+          class="duration">{{((meeting$ | async).currentAgendaItem?.debates | where: isDetailedDebateType).length}}</span>
+      </h2>
+
+      <ng-container
+        *ngFor="let debate of (meeting$ | async).currentAgendaItem?.debates | where: isGeneralDebate | orderBy: 'order' | take: 6;  trackBy: trackByDebateIdfn">
+        <p class="order-later" [@ngForItemAnimation]>{{debate.member.shortName | trim}}</p>
+      </ng-container>
+
+      <ng-container
+        *ngFor="let debate of (meeting$ | async).currentAgendaItem?.debates | where: isDetailedDebateType | orderBy: 'order' | take: getCountLeftForDetailedDebate((meeting$ | async).currentAgendaItem?.debates); trackBy: trackByDebateIdfn">
+        <p class="priority-order" [@ngForItemAnimation]>{{debate.member.shortName | trim}}</p>
+      </ng-container>
+    </ng-container>
+  </div>
+  <div class="main-right">
+    <ng-container *ngIf="(meeting$ | async).followingItems && (meeting$ | async).followingItems.length > 0">
+      <h2 class="content-subheading">Následující body:</h2>
+      <ng-container *ngFor="let followingItem of (meeting$ | async).followingItems | slice:0:6; trackBy: trackByFn">
+        <p class="mutted" [@ngForItemAnimation]>
+          <span
+            class="point-number">{{followingItem.item?.scheduleNo}}</span>{{followingItem.item?.abbreviation | trim | truncate: 22}}
+          <span class="steno" *ngIf="followingItem.item?.print">
+            <app-agenda-item-print [printName]="followingItem.item.print | trim"></app-agenda-item-print>
+          </span>
+        </p>
+      </ng-container>
+    </ng-container>
+  </div>
+</section>

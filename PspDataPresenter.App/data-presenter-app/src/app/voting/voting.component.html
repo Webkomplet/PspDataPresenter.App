@@ -1,0 +1,34 @@
+<section class="headings">
+  <ng-container *ngIf="(votingStart$ | async).type === 'standard'">
+
+    <h1 class="main-heading" *ngIf="(meeting$ | async).currentAgendaItem">
+      {{(meeting$ | async).currentAgendaItem?.name}}
+      <app-agenda-item-print [printName]="(meeting$ | async).currentAgendaItem?.print"
+        [ngStyle]="{'display': (meeting$ | async).currentAgendaItem?.name != null && (meeting$ | async).currentAgendaItem?.name.length > 24 ? 'inline-block' : 'block'}">
+      </app-agenda-item-print>
+    </h1>
+
+  </ng-container>
+  <ng-container *ngIf="(votingStart$ | async).type === 'test'">
+    <h1 class="main-heading" *ngIf="(notification$ | async).text"
+      [innerHtml]="(notification$ | async).text | replaceLinebreaks"></h1>
+    <h1 class="main-heading" *ngIf="(notification$ | async).text == null || (notification$ | async).text == undefined">
+      {{(meeting$ | async).currentAgendaItem?.name}}
+      <app-agenda-item-print [printName]="(meeting$ | async).currentAgendaItem?.print"
+        [ngStyle]="{'display': (meeting$ | async).currentAgendaItem?.name != null && (meeting$ | async).currentAgendaItem?.name.length > 24 ? 'inline-block' : 'block'}">
+      </app-agenda-item-print>
+    </h1>
+  </ng-container>
+</section>
+
+<section class="main-content">
+  <div class="content-box">
+    <h2 class="content-heading" *ngIf="(votingStart$ | async).type === 'standard'">Hlasování
+      {{(votingStart$ | async).votingNo}}</h2>
+    <h2 class="content-heading" *ngIf="(votingStart$ | async).type === 'test'">Testovací hlasování</h2>
+    <div id="countdown" class="countdown" style="margin-top:-15px" *ngIf="(votingStart$ | async).type === 'standard'">
+      <app-timer [start]="(votingStart$ | async).start" [end]="(votingStart$ | async).end"
+        (onTimerInit)="processTimerStart()"></app-timer>
+    </div>
+  </div>
+</section>

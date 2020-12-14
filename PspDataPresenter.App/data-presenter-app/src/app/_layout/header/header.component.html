@@ -1,0 +1,15 @@
+<header [@headerTransition]="state" [class.pause]="state === 'expanded'"  [class.hidden]="state === 'hidden'">
+  <div class="header-left">
+    <span class="h-item warning">Schůze</span><span> {{(meeting$ | async).meetingNo}}</span>
+    <ng-container *ngIf="(meeting$ | async)?.currentAgendaItem"><span class="h-item warning">Bod</span><span>
+        {{(meeting$ | async).currentAgendaItem.scheduleNo}}</span></ng-container>
+    <span class="h-item"><img src="./assets/img/user-ylw.svg" class="ico"
+        alt="přihlášených">{{(presentMembers$ | async).members != null ? (presentMembers$ | async).members.length : '0'}}</span>
+    <span class="h-item warning" *ngIf="(presentMembers$ | async).quorum">Q</span><span> {{(presentMembers$ | async).quorum}}</span>
+    <span class="h-item h-item--bullet ok" *ngIf="state !== 'normalWithoutStopwatch'"><app-stopwatch></app-stopwatch></span>
+  </div>
+  <div class="header-right">
+    <span class="date">{{currentDate | date: 'd. M. yyyy'}}</span><span
+      class="time">{{currentDate | date: 'HH:mm'}}</span>
+  </div>
+</header>

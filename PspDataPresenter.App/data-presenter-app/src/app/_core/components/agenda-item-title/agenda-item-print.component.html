@@ -1,0 +1,22 @@
+<ng-container *ngIf="houseDocumentType || houseDocumentNumber || houseMeetingType">
+  <span class="readings">
+    <ng-container [ngSwitch]="houseDocumentType">
+      <ng-container *ngSwitchCase="'print'">ST</ng-container>
+      <ng-container *ngSwitchCase="'document'">SD</ng-container>
+    </ng-container>&nbsp;{{houseDocumentNumber}}
+    <ng-container [ngSwitch]="houseMeetingType">
+      <ng-container *ngSwitchCase="'firstReading'"><img src="./assets/img/book.svg" style="width: 34px; height: auto;"
+          class="ico" alt="čtení">1. čt</ng-container>
+      <ng-container *ngSwitchCase="'secondReading'"><img src="./assets/img/book.svg" style="width: 34px; height: auto;"
+          class="ico" alt="čtení">2. čt</ng-container>
+      <ng-container *ngSwitchCase="'thirdReading'"><img src="./assets/img/book.svg" style="width: 34px; height: auto;"
+          class="ico" alt="čtení">3. čt</ng-container>
+      <ng-container *ngSwitchCase="'legislativeEmergency'"><img src="./assets/img/need.svg"
+          style="width: 34px; height: auto;" class="ico" alt="legislativní nouze">leg. n.</ng-container>
+      <ng-container *ngSwitchCase="'senateReturned'"><img src="./assets/img/senate-returned.svg"
+          style="width: 34px; height: auto;" class="ico" alt="vráceno senátem">vr. sen.</ng-container>
+      <ng-container *ngSwitchCase="'presidentReturned'"><img src="./assets/img/president-returned.svg"
+          style="width: 34px; height: auto;" class="ico" alt="vráceno prezidentem">vr. pre.</ng-container>
+    </ng-container>
+  </span>
+</ng-container>

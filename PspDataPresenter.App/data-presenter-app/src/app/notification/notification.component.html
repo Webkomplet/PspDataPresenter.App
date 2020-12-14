@@ -1,0 +1,67 @@
+<section class="main-content">
+  <div class="content-box" style="padding-top: 30px; max-height: 500px;">
+    <ng-container [ngSwitch]="(notification$ | async).type">
+      <ng-container *ngSwitchCase="'meetingStart'">
+        <div [@fadeAnimation]>
+          <h1 class="content-heading" #notificationText [innerHTML]="(notification$ | async).text | replaceLinebreaks"></h1>
+        </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'meetingEnd'">
+        <div [@fadeAnimation]>
+          <h1 class="content-heading" #notificationText [innerHTML]="(notification$ | async).text | replaceLinebreaks"></h1>
+        </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'meetingBreak'">
+        <div [@fadeAnimation]>
+          <h1 class="content-heading" #notificationText [innerHTML]="(notification$ | async).text | replaceLinebreaks"></h1>
+        </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'meetingChange'">
+        <div [@fadeAnimation]>
+          <h1 class="content-heading" #notificationText [innerHTML]="(notification$ | async).text | replaceLinebreaks"></h1>
+        </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'meetingPause'">
+        <div [@fadeAnimation]>
+          <h1 class="content-heading" #notificationText [innerHTML]="(notification$ | async).text | replaceLinebreaks"></h1>
+        </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'memberPromise'">
+        <div [@fadeAnimation]>
+          <img src="./assets/img/house-logo.svg" alt="logo sněmovny">
+        </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'presidentSpeech'">
+        <div [@fadeAnimation]>
+          <img src="./assets/img/flag.svg" #notificationText alt="Czech Republic country flag" style="margin-top: -80px;" />
+        </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'other'">
+        <div [@fadeAnimation]>
+          <h1 class="content-heading"#notificationText [innerHTML]="(notification$ | async).text | replaceLinebreaks"></h1>
+        </div>
+      </ng-container>
+      
+    </ng-container>
+
+    <div *ngIf="(notification$ | async).type !== 'presidentSpeech' && (notification$ | async).type !== 'memberPromise' && textHeight > 240 && textHeight < 350" [@fadeAnimation]>
+      <img src="./assets/img/house-logo.svg" alt="logo sněmovny" style="max-width: 300px;">
+    </div>
+
+    <div *ngIf="(notification$ | async).type !== 'presidentSpeech' && (notification$ | async).type !== 'memberPromise'  && textHeight <= 240" [@fadeAnimation]>
+      <img src="./assets/img/house-logo.svg" alt="logo sněmovny">
+    </div>
+
+  </div>
+</section>
+<!-- 
+<div style="position: fixed; margin: 0 auto; bottom: 30px;">
+  <img src="./assets/img/house-logo.svg" alt="logo sněmovny">
+</div> -->

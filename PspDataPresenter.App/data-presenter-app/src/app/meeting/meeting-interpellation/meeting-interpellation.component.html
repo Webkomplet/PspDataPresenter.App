@@ -1,0 +1,13 @@
+<section class="main-content">
+  <ul id="list" class="interpelation" style="overflow: hidden;">
+    <li class="list-item" [@ngForItemAnimation] (click)="markItemFinished(interpellation)" [class.active]="interpellation.active" [class.priority-order]="interpellation.toPrimeMinister"
+      *ngFor="let interpellation of (meeting$ | async).currentAgendaItem?.interpellations | where: shouldDisplayInterpellation | orderBy: 'order' | take: 4; trackBy: trackByFn">
+      <span class="order">{{interpellation.order}}.</span>
+      <div class="speakers">
+        <span class="speaker">{{interpellation.submitter.shortName | trim}}</span>
+        <span class="responder">{{interpellation.interpellatedMember?.shortName  | trim}}</span>
+      </div>
+      <span class="topic">{{interpellation.subject | trim}}</span>
+    </li>
+  </ul>
+</section>

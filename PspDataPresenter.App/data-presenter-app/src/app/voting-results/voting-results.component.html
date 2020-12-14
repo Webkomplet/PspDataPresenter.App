@@ -1,0 +1,89 @@
+<section class="headings">
+  <ng-container *ngIf="(votingStart$ | async).type === 'standard'">
+    <h1 class="main-heading" *ngIf="(meeting$ | async).currentAgendaItem">
+      {{(meeting$ | async).currentAgendaItem?.name}}
+      <app-agenda-item-print [printName]="(meeting$ | async).currentAgendaItem?.print"
+        [ngStyle]="{'display': (meeting$ | async).currentAgendaItem?.name != null && (meeting$ | async).currentAgendaItem?.name.length > 24 ? 'inline-block' : 'block'}">
+      </app-agenda-item-print>
+    </h1>
+  </ng-container>
+  <ng-container *ngIf="(votingStart$ | async).type === 'test'">
+    <h1 class="main-heading" *ngIf="(notification$ | async).text"
+      [innerHtml]="(notification$ | async).text | replaceLinebreaks"></h1>
+    <h1 class="main-heading" *ngIf="(notification$ | async).text == null || (notification$ | async).text == undefined">
+      {{(meeting$ | async).currentAgendaItem?.name}}
+      <app-agenda-item-print [printName]="(meeting$ | async).currentAgendaItem?.print"
+        [ngStyle]="{'display': (meeting$ | async).currentAgendaItem?.name != null && (meeting$ | async).currentAgendaItem?.name.length > 24 ? 'inline-block' : 'block'}">
+      </app-agenda-item-print>
+    </h1>
+  </ng-container>
+</section>
+
+<section class="main-content poll">
+  <div class="content-box" style="margin-top: -20px;">
+    <div id="result" *ngIf="(votingResult$ | async).summary?.result" class="result result-list-header"
+      [@fadeOpacityAnimation] [@resultHeaderAnimation]="resultHeaderAnimationState"
+      [class.accepted]="(votingResult$ | async).summary?.result === 'passed'"
+      [class.denied]="(votingResult$ | async).summary?.result === 'failed'"
+      [class.no-quorum]="(votingResult$ | async).summary?.result === 'noQuorum'"
+      [class.full-width]="resultHeaderAnimationState === 3">
+
+      <div id="subresult" class="subresult">
+        <ng-container *ngIf="(votingResult$ | async).summary?.result === 'passed'">
+          <img src="./assets/img/accepted.svg" alt="">přijato
+        </ng-container>
+        <ng-container *ngIf="(votingResult$ | async).summary?.result === 'failed'">
+          <img src="./assets/img/denied.svg" alt="">zamítnuto
+        </ng-container>
+        <ng-container *ngIf="(votingResult$ | async).summary?.result === 'noQuorum'">
+          <img src="./assets/img/unattainable.svg" alt="">nedosaženo kvóra
+        </ng-container>
+      </div>
+
+      <div id="votes" class="votes" *ngIf="resultHeaderAnimationState === 3" [@fadeOpacityAnimation]>
+        <div class="vac">
+          <img src="./assets/img/accepted-b.svg" alt="">{{(votingResult$ | async).summary?.votedFor}}
+        </div>
+        <div class="vde">
+          <img src="./assets/img/denied-b.svg" alt="">{{(votingResult$ | async).summary?.votedAgainst}}
+        </div>
+      </div>
+
+      <div id="vote-number" class="vote-number" *ngIf="resultHeaderAnimationState === 3" [@fadeOpacityAnimation]>
+        <ng-container *ngIf="(votingStart$ | async).type === 'standard' || !(votingStart$ | async)">Hlasování
+          {{(votingStart$ | async).votingNo}}</ng-container>
+        <ng-container *ngIf="(votingStart$ | async).type === 'test'">Testovací hlasování</ng-container>
+      </div>
+    </div>
+
+    <div id="result-list" class="result-list" *ngIf="resultHeaderAnimationState === 3" [@fadeOpacityAnimation]>
+      <div class="main-left">
+        <table>
+          <tbody>
+            <tr
+              *ngFor="let result of (votingResult$ | async).votingClubResults | orderBy: 'result.clubModel.name' | take: 5">
+              <td class="group">{{result.clubModel.abbreviation}}</td>
+              <td class="loggedin"><img src="./assets/img/user.svg" alt="">{{result.present}}</td>
+              <td class="accepted"><img src="./assets/img/tab-accepted.svg" alt="">{{result.for}}</td>
+              <td class="denied"><img src="./assets/img/tab-denied.svg" alt="">{{result.against}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="main-right">
+        <table>
+          <tbody>
+            <tr
+              *ngFor="let result of (votingResult$ | async).votingClubResults | orderBy: 'result.clubModel.name' | drop:5 | take: 5">
+              <td class="group">{{result.clubModel.abbreviation}}</td>
+              <td class="loggedin"><img src="./assets/img/user.svg" alt="">{{result.present}}</td>
+              <td class="accepted"><img src="./assets/img/tab-accepted.svg" alt="">{{result.for}}</td>
+              <td class="denied"><img src="./assets/img/tab-denied.svg" alt="">{{result.against}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</section>

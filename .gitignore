@@ -1,0 +1,7 @@
+obj
+bin
+/PspDataPresenter.App/wwwroot
+/.vs/PspDataPresenter.App/v16/.suo
+*.user
+.dtbcache.v2
+/.vs

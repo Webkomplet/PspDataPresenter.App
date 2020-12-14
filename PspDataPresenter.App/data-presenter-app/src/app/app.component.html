@@ -1,0 +1,5 @@
+<app-header [state]="headerState"></app-header>
+<main [@routerTransition]="getState(o)">
+    <router-outlet #o="outlet"></router-outlet>
+</main>
+<!-- <app-footer></app-footer> -->
